@@ -20,7 +20,11 @@ function showSuccess(input){
 }
 
 // we will use a reg ex method to evaluate a passpord to make sure it meets certain criteria
-const re = 
+function validateEmail(email){
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
 //Event listeners 
 form.addEventListener('submit', function(e){
     e.preventDefault();
@@ -29,9 +33,13 @@ form.addEventListener('submit', function(e){
     } else {
         showSuccess(username);
     }
+
     if(email.value === ''){
         showError(email, 'email is required');
-    } else {
+    } else if(!validateEmail(email.value)){
+        showError(email, 'email is invalid');
+    } 
+    else {
         showSuccess(email);
     }
     if(password.value === ''){
@@ -41,6 +49,8 @@ form.addEventListener('submit', function(e){
     }
     if(password2.value === ''){
         showError(password2, 'please confirm password');
+    } else if(password.value !== password2.value) {
+        showError(password2, 'passwords do not match');
     } else {
         showSuccess(password2);
     }
